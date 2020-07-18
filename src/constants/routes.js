@@ -1,4 +1,7 @@
 export const LANDING = '/';
+export const CONTACT_US = '/contact';
+export const FAQ = '/faq';
+export const RESOURCES = '/resources';
 export const SIGN_UP = '/signup';
 export const SIGN_IN = '/signin';
 export const HOME = '/home';
