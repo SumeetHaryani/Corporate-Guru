@@ -5,18 +5,7 @@ import SignOutButton from "../SignOut";
 import * as ROUTES from "../../constants/routes";
 import { AuthUserContext } from "../Session";
 
-import {
-  Navbar,
-  NavDropdown,
-  Nav,
-  Form,
-  FormControl,
-  Button,
-  NavItem,
-  Container,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Navbar, Nav, Button, Container, Row, Col } from "react-bootstrap";
 import logo from "../../assets/logo.png";
 
 const Navigation = () => (

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 
 // import { withFirebase } from "../Firebase";
-import { AuthUserContext, withAuthorization } from '../Session';
+import { AuthUserContext, withAuthorization } from "../Session";
+import { Table, Container } from "react-bootstrap";
 
 class AdminPage extends Component {
   constructor(props) {
@@ -10,11 +11,25 @@ class AdminPage extends Component {
     this.state = {
       loading: false,
       users: [],
+      messages: [],
     };
   }
 
   componentDidMount() {
     this.setState({ loading: true });
+
+    this.props.firebase.messages().on("value", (snapshot) => {
+      const messagesObject = snapshot.val();
+
+      const messagesList = Object.keys(messagesObject).map((key) => ({
+        ...messagesObject[key],
+        uid: key,
+      }));
+
+      this.setState({
+        messages: messagesList,
+      });
+    });
 
     this.props.firebase.users().on("value", (snapshot) => {
       const usersObject = snapshot.val();
@@ -33,44 +48,74 @@ class AdminPage extends Component {
 
   componentWillUnmount() {
     this.props.firebase.users().off();
+    this.props.firebase.messages().off();
   }
 
   render() {
-    const { users, loading } = this.state;
-
+    const { users, messages, loading } = this.state;
     return (
       <AuthUserContext.Consumer>
-        {(authUser) => (
-          <div>
-            <h1>Admin</h1>
-
-            {loading && <div>Loading ...</div>}
-
-            <UserList users={users} />
-          </div>
-        )}
+        {(authUser) =>
+          authUser.email === "admin@gmail.com" ? (
+            <Container>
+              <h2 className="text-center">Admin</h2>
+              {loading && <div>Loading ...</div>}
+              <h3 className="text-center"> Messages</h3>
+              <MessageList messages={messages} />
+              <h3 className="text-center"> Registered Users</h3>
+              <UserList users={users} />
+            </Container>
+          ) : (
+            <h1>Not a Admin</h1>
+          )
+        }
       </AuthUserContext.Consumer>
     );
   }
 }
-
-const UserList = ({ users }) => (
-  <ul>
-    {users.map((user) => (
-      <li key={user.uid}>
-        <span>
-          <strong>ID:</strong> {user.uid}
-        </span>
-        <span>
-          <strong>E-Mail:</strong> {user.email}
-        </span>
-        <span>
-          <strong>Username:</strong> {user.username}
-        </span>
-      </li>
-    ))}
-  </ul>
+const MessageList = ({ messages }) => (
+  <Table striped bordered hover size="sm">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Mobile</th>
+        <th>Message</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {messages.map((msg) => (
+        <tr key={msg.uid} className="border">
+          <td>{msg.name}</td>
+          <td>{msg.email}</td>
+          <td>{msg.phone}</td>
+          <td>{msg.message}</td>
+          <td>{msg.date}</td>
+        </tr>
+      ))}
+    </tbody>
+  </Table>
 );
+const UserList = ({ users }) => (
+  <Table striped bordered hover size="sm">
+    <thead>
+      <tr>
+        <th>User Name</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      {users.map((user) => (
+        <tr key={user.uid} className="border">
+          <td>{user.username}</td>
+          <td>{user.email}</td>
+        </tr>
+      ))}
+    </tbody>
+  </Table>
+);
+
 const condition = (authUser) => !!authUser;
 
 export default withAuthorization(condition)(AdminPage);

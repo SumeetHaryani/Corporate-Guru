@@ -10,11 +10,13 @@ import * as ROUTES from "../../constants/routes";
 
 import { Alert, Container, Row, Col, Form, Button } from "react-bootstrap";
 const SignInPage = () => (
-  <Container fluid >
-     <br />
+  <Container fluid>
+    <br />
     <Row>
-      <Col md={3} xs={11} className="mx-auto mt-2 border rounded p-4">
-        <h1 className="text-center"><i class="fa fa-user" aria-hidden="true"></i>  Sign In</h1>
+      <Col md={3} xs={11} className="mx-auto mt-2 shadow border rounded p-4">
+        <h1 className="text-center">
+          <i className="fa fa-user" aria-hidden="true"></i> Sign In
+        </h1>
         <SignInForm />
         <PasswordForgetLink />
         <SignUpLink />
@@ -43,7 +45,7 @@ class SignInFormBase extends Component {
       .doSignInWithEmailAndPassword(email, password)
       .then(() => {
         this.setState({ ...INITIAL_STATE });
-        this.props.history.push(ROUTES.HOME);
+        this.props.history.push(ROUTES.LANDING);
       })
       .catch((error) => {
         this.setState({ error });
@@ -74,7 +76,7 @@ class SignInFormBase extends Component {
           />
         </Form.Group>
 
-        <Form.Group >
+        <Form.Group>
           <Form.Label>Password</Form.Label>
           <Form.Control
             name="password"
@@ -85,7 +87,12 @@ class SignInFormBase extends Component {
           />
         </Form.Group>
 
-        <Button disabled={isInvalid} variant="primary" type="submit" className="my-2">
+        <Button
+          disabled={isInvalid}
+          variant="primary"
+          type="submit"
+          className="my-2"
+        >
           Sign In
         </Button>
         {error && <Alert variant="danger">{error.message}</Alert>}
@@ -99,13 +106,3 @@ const SignInForm = compose(withRouter, withFirebase)(SignInFormBase);
 export default SignInPage;
 
 export { SignInForm };
-
-{
-  /* <Container fluid>
-<Row>
-  <Col md={10} xs={12} className="mx-auto">
- 
-  </Col>
-</Row>
-</Container> */
-}

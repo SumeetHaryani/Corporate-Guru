@@ -1,18 +1,27 @@
 import React from "react";
-import { Alert, Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import Banner from "./Banner";
+import Testimonail from "./Testimonial";
+import Cta from "./Cta";
+import Count from "./Count";
+import Services from "./Services";
+import Footer from "./Footer";
 const Landing = () => (
-  <main>
-    <Banner/>
-  <Container fluid>
-    
-    <Row>
-      <Col md={12} xs={12} lg={12} className="">
-  
-      </Col>
-    </Row>
-  </Container>
-  </main>
+  <>
+    <div className="d-none d-md-block ">
+      <Banner />
+    </div>
+    <Container fluid>
+      <Cta />
+      <Count />
+      <Testimonail />
+      <Services />
+      <Footer />
+      {/* <Row>
+        <Col md={10} xs={12} className=""></Col>
+      </Row> */}
+    </Container>
+  </>
 );
 
 export default Landing;

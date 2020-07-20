@@ -10,9 +10,9 @@ const SignUpPage = () => (
   <Container fluid >
       <br />
     <Row>
-      <Col md={3} xs={11} className="mx-auto mt-2 border rounded p-4">
+      <Col md={3} xs={11} className="mx-auto mt-2 shadow border rounded p-4">
         <h1 className="text-center">
-          <i class="fa fa-user" aria-hidden="true"></i> Sign Up
+          <i className="fa fa-user" aria-hidden="true"></i> Sign Up
         </h1>
         <SignUpForm />
       </Col>
@@ -49,7 +49,7 @@ class SignUpFormBase extends Component {
       })
       .then((authUser) => {
         this.setState({ ...INITIAL_STATE });
-        this.props.history.push(ROUTES.HOME);
+        this.props.history.push(ROUTES.LANDING);
       })
       .catch((error) => {
         this.setState({ error });
